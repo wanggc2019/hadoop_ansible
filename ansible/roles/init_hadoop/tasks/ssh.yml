@@ -1,0 +1,26 @@
+---
+- name: do config /etc/ssh/ssh_config
+  block:
+    - replace: path=/etc/ssh/ssh_config regexp="^#   StrictHostKeyChecking ask" replace="StrictHostKeyChecking no" backup=yes
+    - replace: path=/etc/ssh/ssh_config regexp="^GSSAPIAuthentication yes" replace="GSSAPIAuthentication no" backup=yes
+
+- name: do config /etc/ssh/sshd_config
+  block:
+    - replace: path=/etc/ssh/sshd_config regexp="^#PubkeyAuthentication yes" replace="PubkeyAuthentication yes" backup=yes
+    - replace: path=/etc/ssh/sshd_config regexp="^#RSAAuthentication yes" replace="RSAAuthentication yes" backup=yes
+    - replace: path=/etc/ssh/sshd_config regexp="^#AuthorizedKeysFile  .ssh" replace="AuthorizedKeysFile      .ssh/authorized_keys" backup=yes
+
+- name: Generate ssh key and do authorized_keys file
+  block:
+#    - name: Generate an OpenSSH keypair with the default values (4096 bits, rsa)
+#      openssh_keypair: path=/home/hadoop/.ssh/id_rsa state=present type=rsa size=4096 force=no owner=hadoop group=hadoop
+     - user: name=hadoop generate_ssh_key=yes ssh_key_type=rsa ssh_key_bits=4096 ssh_key_file=.ssh/id_rsa force=no
+     - authorized_key: user=hadoop key="{{ lookup('file', '/home/hadoop/.ssh/id_rsa.pub') }}" path='/home/hadoop/.ssh/authorized_keys' manage_dir=no
+
+#    - name: clean old rsa file if exist
+#      file: path=/home/hadoop/.ssh state=absent
+#    - name: Fix owner of the generated pub key
+#      file: path=/home/hadoop/.ssh/id_rsa.pub owner=hadoop group=hadoop
+#    - raw: su - hadoop -c "ssh-keygen -q -t rsa -N  \"\"  -f  /home/hadoop/.ssh/id_rsa"
+#    - raw: cat /home/hadoop/.ssh/id_rsa.pub >>/home/hadoop/.ssh/authorized_keys
+#    - raw: chmod go-wx  /home/hadoop/.ssh/authorized_keys

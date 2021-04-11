@@ -1,0 +1,21 @@
+---
+- name: part disk
+  include: partitions.yml
+
+- name: set hostname
+  include: partition.yaml
+
+- name: packages install
+  include: packages.yaml
+
+- name: sysctl config
+  include: sysctl.yaml
+
+- name: set optimize
+  include: optimize.yml
+
+- name: python 2.7
+  include: python2.7.yaml
+
+- name: create hadoop dirs
+  include: create_hadoop_dirs.yml

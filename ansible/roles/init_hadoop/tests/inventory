@@ -1,0 +1,8 @@
+[newhost] 
+10.90.48.150   hostname=10-90-48-150-jhdxyjd.mob.local
+10.90.48.151   hostname=10-90-48-151-jhdxyjd.mob.local
+10.90.48.152   hostname=10-90-48-152-jhdxyjd.mob.local
+10.90.48.153   hostname=10-90-48-153-jhdxyjd.mob.local
+[all:vars]
+ansible_ssh_port=57522
+# ansible_python_interpreter=/usr/bin/python2.6

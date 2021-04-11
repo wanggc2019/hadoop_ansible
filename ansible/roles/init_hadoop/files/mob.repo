@@ -1,0 +1,5 @@
+[nexus-local]
+name=Nexus Repository local
+baseurl=http://repos.mob.com/repository/yum-local/$releasever/app/$basearch/
+enabled=1
+gpgcheck=0

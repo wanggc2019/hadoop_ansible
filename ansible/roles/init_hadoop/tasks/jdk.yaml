@@ -1,0 +1,10 @@
+- name: java 1.8.45
+  copy: src=files/jdk1.8.0_45.tar.gz dest=/tmp/jdk1.8.0_45.tar.gz
+- name: copy jmx_gateway
+  raw : src=files/jmx_exporter dest=/opt/
+- name: tar java
+  raw: tar -zxf /tmp/jdk1.8.0_45.tar.gz -C /usr/local/
+- name: chown java
+  raw: chown -R root:root /usr/local/jdk1.8.0_45
+- name: set java links
+  raw: cd /usr/local && mv java /tmp/ && ln -s /usr/local/jdk1.8.0_45  /usr/local/java

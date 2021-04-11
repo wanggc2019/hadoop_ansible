@@ -1,0 +1,13 @@
+---
+- name: create hadoop user and group
+  block:
+    - group: name=hadoop
+    - user: name=hadoop group=hadoop
+
+- name: set user passwd
+  raw: echo 123456 | passwd --stdin hadoop
+
+- name: enable hadoop sudo
+  lineinfile:
+    path: /etc/sudoers
+    line: hadoop ALL=(ALL) NOPASSWD:ALL

@@ -1,0 +1,130 @@
+---
+- name: create hadoop directories
+  block:
+    - name: create hadoop pid directory
+      file: path=/var/soft/data/tmp/hadoop/pid state=directory owner=hadoop group=hadoop recurse=yes
+    - name: create frist namenode directory
+      file: path=/hadoop/data/namenode/name state=directory owner=hadoop group=hadoop recurse=yes
+    - name: create second namenode directory
+      file: path=/hadoop1/data/namenode/name state=directory owner=hadoop group=hadoop recurse=yes
+    - name: create journalnode directory
+      file: path=/var/soft/data/journal state=directory owner=hadoop group=hadoop recurse=yes
+    - name: create spark pid directory
+      file: path=/var/soft/data/tmp/spark/pids state=directory owner=hadoop group=hadoop recurse=yes
+    - name: create zookeeper data directory
+      file: path=/var/soft/data/zookeeper/storage state=directory owner=hadoop group=hadoop recurse=yes
+    - name: create ranger pid directory
+      file: path=/var/soft/data/tmp/ranger/pids state=directory owner=hadoop group=hadoop recurse=yes
+    - name: create datanode directory
+      file: path={{ item }} state=directory owner=hadoop group=hadoop recurse=yes
+      with_items:
+           - /hadoop/data/hdfs
+           - /hadoop1/data/hdfs
+           - /hadoop2/data/hdfs
+           - /hadoop3/data/hdfs
+           - /hadoop4/data/hdfs
+           - /hadoop5/data/hdfs
+           - /hadoop6/data/hdfs
+           - /hadoop7/data/hdfs
+           - /hadoop8/data/hdfs
+           - /hadoop9/data/hdfs
+           - /hadoop10/data/hdfs
+           - /hadoop11/data/hdfs
+    - name: create nodemanager directory
+      file: path={{ item }} state=directory owner=hadoop group=hadoop recurse=yes
+      with_items:
+            - /hadoop/data/tmp/nodemanager
+            - /hadoop1/data/tmp/nodemanager
+            - /hadoop2/data/tmp/nodemanager
+            - /hadoop3/data/tmp/nodemanager
+            - /hadoop4/data/tmp/nodemanager
+            - /hadoop5/data/tmp/nodemanager
+            - /hadoop6/data/tmp/nodemanager
+            - /hadoop7/data/tmp/nodemanager
+            - /hadoop8/data/tmp/nodemanager
+            - /hadoop9/data/tmp/nodemanager
+            - /hadoop10/data/tmp/nodemanager
+            - /hadoop11/data/tmp/nodemanager
+    - name: create mapreduce directory
+      file: path={{ item }} state=directory owner=hadoop group=hadoop recurse=yes
+      with_items:
+            - /hadoop/data/mapred/mrlocal
+            - /hadoop1/data/mapred/mrlocal
+            - /hadoop2/data/mapred/mrlocal
+            - /hadoop3/data/mapred/mrlocal
+            - /hadoop4/data/mapred/mrlocal
+            - /hadoop5/data/mapred/mrlocal
+            - /hadoop6/data/mapred/mrlocal
+            - /hadoop7/data/mapred/mrlocal
+            - /hadoop8/data/mapred/mrlocal
+            - /hadoop9/data/mapred/mrlocal
+            - /hadoop10/data/mapred/mrlocal
+            - /hadoop11/data/mapred/mrlocal
+    - name: create hive tmp data directory
+      file: path={{ item }} state=directory owner=hadoop group=hadoop recurse=yes
+      with_items:
+            - /hadoop/data/tmp/hive
+            - /hadoop1/data/tmp/hive
+            - /hadoop2/data/tmp/hive
+            - /hadoop3/data/tmp/hive
+            - /hadoop4/data/tmp/hive
+            - /hadoop5/data/tmp/hive
+            - /hadoop6/data/tmp/hive
+            - /hadoop7/data/tmp/hive
+            - /hadoop8/data/tmp/hive
+            - /hadoop9/data/tmp/hive
+            - /hadoop10/data/tmp/hive
+            - /hadoop11/data/tmp/hive
+    - name: create spark tmp data directory
+      file: path={{ item }} state=directory owner=hadoop group=hadoop recurse=yes
+      with_items:
+            - /hadoop/data/tmp/spark
+            - /hadoop1/data/tmp/spark
+            - /hadoop2/data/tmp/spark
+            - /hadoop3/data/tmp/spark
+            - /hadoop4/data/tmp/spark
+            - /hadoop5/data/tmp/spark
+            - /hadoop6/data/tmp/spark
+            - /hadoop7/data/tmp/spark
+            - /hadoop8/data/tmp/spark
+            - /hadoop9/data/tmp/spark
+            - /hadoop10/data/tmp/spark
+            - /hadoop11/data/tmp/spark
+    - name: set directory mod and owner
+      block:
+        - name: set /var/soft diretory as owner=hadoop,group=hadoop,mode=0755
+          file: path=/var/soft owner=hadoop group=hadoop mode=0755 recurse=yes
+        - name: set /hadoop*/data/tmp directory as owner=hadoop,group=hadoop,mode=0777
+          file: path={{ item }} owner=hadoop group=hadoop mode=0777 recurse=yes
+          with_items:
+            - /hadoop/data/tmp
+            - /hadoop1/data/tmp
+            - /hadoop2/data/tmp
+            - /hadoop3/data/tmp
+            - /hadoop4/data/tmp
+            - /hadoop5/data/tmp
+            - /hadoop6/data/tmp
+            - /hadoop7/data/tmp
+            - /hadoop8/data/tmp
+            - /hadoop9/data/tmp
+            - /hadoop10/data/tmp
+            - /hadoop11/data/tmp
+
+
+#- name: create hdfs data directory
+#  block:
+#    - name: Checking folders
+#      stat:
+#        path: "{{item}}"
+#        register: folder_stats
+#        with_items:
+#            - ["/hadoop/data/hdfs","/hadoop1/data/hdfs","/hadoop2/data/hdfs","/hadoop3/data/hdfs","/hadoop4/data/hdfs","/hadoop5/data/hdfs","/hadoop6/data/hdfs","/hadoop7/data/hdfs","/hadoop8/data/hdfs","/hadoop9/data/hdfs","/hadoop10/data/hdfs","/hadoop11/data/hdfs"]
+#    - name: Creating multiple folders
+#      file:
+#        path: "{{item.item}}"
+#        state: directory
+#        group: hadoop
+#        owner: hadoop
+#        when: item.stat.exists == false
+#        with_items:
+#              - "{{folder_stats.results}}"

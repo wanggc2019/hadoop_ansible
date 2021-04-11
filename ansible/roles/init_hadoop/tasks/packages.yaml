@@ -1,0 +1,46 @@
+---
+- name: rm repl
+  raw:  rm -rf /etc/yum.repos.d/epel*
+- name: install common packages
+  yum: 
+    name: 
+      - lsb
+      - gcc
+      - gcc-c++
+      - vim
+      - nscd
+      - wget
+      - lsof
+      - htop
+      - iftop
+      - iotop
+      - lbzip2
+      - dos2unix
+      - eventlog
+      - net-tools
+      - readline-devel
+      - libnfnetlink
+      - libnetfilter_conntrack
+      - conntrack-tools
+      - tmux
+      - source-highlight
+      - lrzsz
+      - numactl
+      - libnet
+      - glib2-devel
+      - libdbi
+      - zip
+      - unzip
+      - ntp
+      - ntpdate
+      - sysstat
+      - libselinux-python
+      - parted
+      - bind-utils
+      - tree
+      - mtr
+      - epel-release
+      - lzo-devel
+      - zlib-devel
+      - lzop
+    state: present

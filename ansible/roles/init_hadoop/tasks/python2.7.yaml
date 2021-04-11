@@ -1,0 +1,7 @@
+---
+- name: copy python
+  copy: src=files/python27.tar.gz dest=/tmp/python27.tar.gz
+- name: tar python
+  raw: tar -zxf /tmp/python27.tar.gz -C /usr/local/
+- name: change python2.6
+  raw: mv /usr/bin/python /usr/bin/python2.6.6 && ln -s /usr/local/python27/bin/python2.7 /usr/bin/python && ln -s /usr/local/python27/bin/pip /usr/bin/pip && sed -i 's/python/python2.6/g' /usr/bin/yum && python --version

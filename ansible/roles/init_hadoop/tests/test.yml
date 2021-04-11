@@ -1,0 +1,6 @@
+---
+- hosts: newhost
+  remote_user: root
+  roles:
+    - init_hadoop
+    - ansible-transparent-huge-pages

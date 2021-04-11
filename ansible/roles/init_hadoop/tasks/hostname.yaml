@@ -1,0 +1,14 @@
+---
+
+- name: centos6 set-hostname Permanent entry into force
+  lineinfile: dest=/etc/sysconfig/network regexp='^HOSTNAME' line='HOSTNAME={{hostname|quote}}'
+  when: ansible_distribution_major_version|int == 6
+  
+- name: centos6 set-hostname Provisional entry into force
+  raw: hostname {{hostname|quote}}
+  when: ansible_distribution_major_version|int == 6
+  
+- name: centos7 set-hostname
+  shell: hostnamectl set-hostname {{hostname|quote}}
+  when: ansible_distribution_major_version|int == 7
+

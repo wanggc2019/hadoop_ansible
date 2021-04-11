@@ -1,0 +1,46 @@
+---
+- name: disabled SELINUX rigtnow
+  raw: setenforce 0
+  ignore_errors: yes
+
+- name: history size
+  lineinfile: dest=/etc/profile regexp='^HISTSIZE' line='HISTSIZE=10240'
+
+- name: history format
+  lineinfile: dest=/etc/bashrc line='export HISTTIMEFORMAT="%F %T"'
+
+- name: LANGUAGE
+  lineinfile: dest=/etc/profile line={{item}}
+  with_items:
+    - 'export LANGUAGE=en_US.UTF-8'
+    - 'export LANG=en_US.UTF-8'
+    - 'export LC_ALL=en_US.UTF-8'
+
+
+- name: limits config
+  lineinfile: dest=/etc/security/limits.conf line={{item}}
+  with_items:
+    - '* soft nofile 655360'
+    - '* hard nofile 655360'
+    - 'hadoop soft nofile 655360'
+    - 'hadoop hard nofile 655360'
+
+- name: logrotate compress
+  replace: path=/etc/logrotate.conf regexp='^#compress' replace='compress' backup=yes
+
+- name: modify Limit=409600
+  lineinfile: 
+    dest: /etc/init.d/functions
+    regexp: '^ulimit'
+    insertafter: '^export PATH'
+    line: "ulimit -n 409600"
+
+- name: set vm.swappiness 
+  sysctl:
+    name: vm.swappiness
+    value: "{{ swappiness }}"
+    state: present
+    ignoreerrors: yes
+  tags:
+    - optimize
+    - swappiness

@@ -1,0 +1,29 @@
+[nexus-local]
+name=Nexus Repository local
+baseurl=http://repos.mob.com/repository/yum-local/$releasever/app/$basearch/
+enabled=1
+gpgcheck=0
+
+[nexus-base]
+name=Nexus Repository base
+baseurl=http://repos.mob.com/repository/yum-proxy/$releasever/os/$basearch/
+enabled=1
+gpgcheck=0
+
+#[nexus-updates]
+#name=Nexus Repository updates
+#baseurl=http://repos.mob.com/repository/yum-proxy/$releasever/updates/$basearch/
+#enabled=1
+#gpgcheck=0
+
+[nexus-extras]
+name=Nexus Repository extras
+baseurl=http://repos.mob.com/repository/yum-proxy/$releasever/extras/$basearch/
+enabled=1
+gpgcheck=0
+
+[nexus-epel]
+name=Nexus Repository epel
+baseurl=http://repos.mob.com/repository/yum-epel/$releasever/$basearch/
+enabled=1
+gpgcheck=0

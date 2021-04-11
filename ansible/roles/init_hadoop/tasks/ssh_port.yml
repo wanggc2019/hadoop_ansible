@@ -1,0 +1,5 @@
+---
+- name: limits config
+  lineinfile: dest=/etc/profile line={{item}}
+  with_items:
+    - "alias ssh5='ssh -p 57522'"

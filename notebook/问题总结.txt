@@ -1,0 +1,19 @@
+1、测试namenode HA,kill nn1,不能状态转换，在nn2的zkfc日志：
+2021-01-07 10:12:01,240 WARN org.apache.hadoop.ha.ActiveStandbyElector: Exception handling the winning of election
+java.lang.RuntimeException: Unable to fence NameNode at 10-6-103-34-vm-jhdxyjd.mob.local/10.6.103.34:8020
+	at org.apache.hadoop.ha.ZKFailoverController.doFence(ZKFailoverController.java:543)
+	at org.apache.hadoop.ha.ZKFailoverController.fenceOldActive(ZKFailoverController.java:515)
+	at org.apache.hadoop.ha.ZKFailoverController.access$1100(ZKFailoverController.java:60)
+	at org.apache.hadoop.ha.ZKFailoverController$ElectorCallbacks.fenceOldActive(ZKFailoverController.java:951)
+	at org.apache.hadoop.ha.ActiveStandbyElector.fenceOldActive(ActiveStandbyElector.java:997)
+	at org.apache.hadoop.ha.ActiveStandbyElector.becomeActive(ActiveStandbyElector.java:896)
+	at org.apache.hadoop.ha.ActiveStandbyElector.processResult(ActiveStandbyElector.java:476)
+	at org.apache.zookeeper.ClientCnxn$EventThread.processEvent(ClientCnxn.java:636)
+	at org.apache.zookeeper.ClientCnxn$EventThread.run(ClientCnxn.java:510)
+很奇怪，看不到啥有用的，往上看到一行：
+2021-01-07 10:12:01,240 WARN org.apache.hadoop.ha.NodeFencer: Fencing method org.apache.hadoop.ha.SshFenceByTcpPort(null) was unsuccessful.
+2021-01-07 10:12:01,240 ERROR org.apache.hadoop.ha.NodeFencer: Unable to fence service by any configured method.
+2021-01-07 10:12:01,240 INFO org.apache.hadoop.ha.SshFenceByTcpPort.jsch: Caught an exception, leaving main loop due to Socket closed
+
+需要安装fuser：
+yum install psmisc
